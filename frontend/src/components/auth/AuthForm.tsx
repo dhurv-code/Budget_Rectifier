@@ -15,20 +15,16 @@ interface Props {
 export default function AuthForm({ mode }: Props) {
   const router = useRouter();
   const supabase = createClient();
-
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     setError("");
     setLoading(true);
-
     try {
       if (mode === "signup") {
         const { data, error } = await supabase.auth.signUp({
@@ -40,28 +36,28 @@ export default function AuthForm({ mode }: Props) {
             },
           },
         });
-
         if (error) throw error;
-
         if (data.user) {
           await supabase
             .from("profiles")
-            .update({
-              full_name: fullName,
-            })
+            .update({ full_name: fullName, })
             .eq("id", data.user.id);
         }
+        if (data.user && !data.session) {
+          alert("Verification email sent! Please check your inbox before logging in.");
+          router.push("/login");
+          return;
+        }
+        if(data.session){
+          router.push("/dashboard");
+          router.refresh();
 
-        router.push("/dashboard");
-        router.refresh();
+        }
+
+        
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
+        const { error } = await supabase.auth.signInWithPassword({ email, password, });
         if (error) throw error;
-
         router.push("/dashboard");
         router.refresh();
       }
