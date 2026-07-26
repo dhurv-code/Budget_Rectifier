@@ -88,7 +88,7 @@ export default function AuthForm({ mode }: Props) {
         {mode === "signup" && (
           <AuthInput
             label="Full Name"
-            placeholder="Dhurv Gupta"
+            placeholder="Enter your name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             required
