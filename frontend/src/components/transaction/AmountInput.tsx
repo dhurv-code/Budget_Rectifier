@@ -11,7 +11,7 @@ export default function AmountInput({
 }: Props) {
   return (
     <input
-      type="number"
+      type="text"
       placeholder="₹ Amount"
       value={value}
       onChange={(e) => onChange(e.target.value)}

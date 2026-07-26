@@ -5,6 +5,7 @@ import RectifierCard from "@/components/rectifier/RectifierCard";
 import QuickAdd from "@/components/transaction/QuickAdd";
 import TransactionList from "@/components/transaction/TransactionList";
 import BudgetCard from "@/components/budget/BudgetCard";
+import MonthSelector from "@/components/transaction/MonthSelector";
 
 
 export default function DashboardPage() {
@@ -15,6 +16,7 @@ export default function DashboardPage() {
 
       <div className="mx-auto max-w-md space-y-5 p-4">
 
+        <MonthSelector />
         <DashboardStats />
         <BudgetCard />
 

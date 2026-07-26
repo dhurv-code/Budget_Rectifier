@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { TransactionProvider } from "@/context/TransactionContext";
+import { MonthProvider } from "@/context/MonthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Budget Supervisor",
+  title: "Budget Tracker",
   description: "Expense Tracking PWA",
   manifest: "/manifest.json",
 };
@@ -30,9 +31,17 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body>
-        <TransactionProvider>
-          {children}
-        </TransactionProvider>
+
+        <MonthProvider>
+
+          <TransactionProvider>
+
+            {children}
+
+          </TransactionProvider>
+
+        </MonthProvider>
+
       </body>
     </html>
   );

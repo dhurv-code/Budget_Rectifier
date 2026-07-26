@@ -30,6 +30,7 @@ interface TransactionContextType {
     amount: number;
     category: string;
     payment_mode: string;
+    transaction_date: string;
   }) => Promise<void>;
   removeTransaction: (id: string) => Promise<void>;
 }
@@ -58,6 +59,7 @@ export function TransactionProvider({
     amount: number;
     category: string;
     payment_mode: string;
+    transaction_date: string;
   }) {
     await createTransaction(data);
     await refreshTransactions();

@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransactions } from "@/context/TransactionContext";
+import { useMonth } from "@/context/MonthContext";
 
 type Transaction = {
   id: string;
@@ -16,7 +17,15 @@ export default function TransactionList() {
   loading,
   removeTransaction,
 } = useTransactions();
+const { selectedMonth } = useMonth();
+const filteredTransactions = transactions.filter((transaction) => {
+  const date = new Date(transaction.transaction_date);
 
+  return (
+    date.getMonth() === selectedMonth.getMonth() &&
+    date.getFullYear() === selectedMonth.getFullYear()
+  );
+});
   
 
   return (
@@ -25,13 +34,13 @@ export default function TransactionList() {
         Recent Transactions
       </h2>
 
-      {transactions.length === 0 ? (
+      {filteredTransactions.length === 0 ? (
         <p className="text-gray-500">
           No expenses added yet.
         </p>
       ) : (
         <div className="space-y-3">
-          {transactions.map((item) => (
+          {filteredTransactions.map((item) => (
             <div
               key={item.id}
               className="flex items-center justify-between rounded-xl border p-3"

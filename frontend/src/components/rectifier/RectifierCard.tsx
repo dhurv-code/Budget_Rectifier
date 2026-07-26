@@ -2,11 +2,21 @@
 
 import { useTransactions } from "@/context/TransactionContext";
 import { generateSuggestions } from "@/lib/rectifierRules";
-
+import  {useMonth} from "@/context/MonthContext"
 export default function RectifierCard() {
   const { transactions } = useTransactions();
+  const {selectedMonth} =useMonth();
 
-  const suggestions = generateSuggestions(transactions);
+  const monthTransactions = transactions.filter((transaction) => {
+  const date = new Date(transaction.transaction_date);
+
+  return (
+    date.getMonth() === selectedMonth.getMonth() &&
+    date.getFullYear() === selectedMonth.getFullYear()
+  );
+});
+
+const suggestions = generateSuggestions(monthTransactions);
 
   return (
     <div className="rounded-2xl bg-white p-5 shadow">

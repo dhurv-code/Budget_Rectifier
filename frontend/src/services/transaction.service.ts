@@ -30,6 +30,8 @@ export async function createTransaction(data: {
   amount: number;
   category: string;
   payment_mode: string;
+  transaction_date: string;
+  
 }) {
   const user = await getCurrentUser();
 
@@ -40,6 +42,7 @@ export async function createTransaction(data: {
     amount: data.amount,
     category: data.category,
     payment_mode: data.payment_mode,
+    transaction_date: data.transaction_date,
   });
 
   if (error) throw error;

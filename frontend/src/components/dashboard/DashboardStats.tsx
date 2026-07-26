@@ -1,18 +1,24 @@
 "use client";
 
 import { useTransactions } from "@/context/TransactionContext";
-
+import { useMonth } from "@/context/MonthContext";
 export default function DashboardStats() {
   const { transactions } = useTransactions();
-
+  const { selectedMonth } = useMonth();
   const today = new Date();
 
   let todaySpend = 0;
   let monthSpend = 0;
 
-  transactions.forEach((t) => {
+  const monthTransactions = transactions.filter((transaction) => {
+  const date = new Date(transaction.transaction_date);
+  return (
+    date.getMonth() === selectedMonth.getMonth() &&
+    date.getFullYear() === selectedMonth.getFullYear()
+  );
+});
+  monthTransactions.forEach((t) => {
     const date = new Date(t.transaction_date);
-
     if (
       date.getDate() === today.getDate() &&
       date.getMonth() === today.getMonth() &&
@@ -20,10 +26,9 @@ export default function DashboardStats() {
     ) {
       todaySpend += Number(t.amount);
     }
-
     if (
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
+      date.getMonth() === selectedMonth.getMonth() &&
+      date.getFullYear() === selectedMonth.getFullYear()
     ) {
       monthSpend += Number(t.amount);
     }
